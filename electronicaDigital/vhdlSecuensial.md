@@ -25,6 +25,8 @@ processWhat: process (actuSt,x) begin
     when c =>
       if x = '0' then
         nextSt <= d
+
+        # and some testing
         
 
 end process processWhat;
