@@ -5,9 +5,27 @@ port(
 architecture
 
 type states  is (a,b,c,d);
-signal actSt, nextSt: states;
+signal actuSt, nextSt: states;
 
-processWhat: process (x) begin
+processWhat: process (actuSt,x) begin
+
+  case actuSt is
+    when a => 
+      if x = '0' then
+        nextSt <= d;
+      else 
+        nextSt <= b;
+
+    when b => 
+      if x = '0' then
+        nextSt <= d;
+      else 
+        nextSt <= c;
+
+    when c =>
+      if x = '0' then
+        nextSt <= d
+        
 
 end process processWhat;
 
