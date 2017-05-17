@@ -6,8 +6,7 @@ use ieee.std_logic_unsigned.all;
 entity Signals is
 
 port( 
-	deco: out std_logic_vector ( 7 downto 0 );
-	state: inout std_logic_vector ( 3 downto 0 );
+	deco: out std_logic_vector ( 7 downto 0 ); -- Decoded 
 	clk: in std_logic
  );
 
@@ -16,6 +15,7 @@ port(
 end;
 
 architecture Contador of Signals is
+signal state: std_logic_vector (3 downto 0);
 begin
 
 count: process(clk,state)
@@ -32,14 +32,14 @@ end process count;
 
 	with (state) select
 		deco <= "1111110" when "0000",
-			"1111110" when "0001",
-			"1111110" when "0010",
-			"1111110" when "0011",
-			"1111110" when "0100",
-			"1111110" when "0101",
-			"1111110" when "0110",
-			"1111110" when "0111",
-			"1111110" when "1000",
-			"1111110" when "1001",
-			"-------" when others;
+				"0110000" when "0001",
+				"1101101" when "0010",
+				"1111001" when "0011",
+				"0110011" when "0100",
+				"1011011" when "0101",
+				"1011111" when "0110",
+				"1110000" when "0111",
+				"1111111" when "1000",
+				"1110011" when "1001",
+				"-------" when others;
 end Contador;

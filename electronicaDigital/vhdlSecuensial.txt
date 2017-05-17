@@ -16,7 +16,7 @@ architecture archName of entityName is
 begin
 
   type estados is (a0,a1,a2,a3);       -- s0 s1 s2 s3
-  signal actuSt, nextSt: estados;  -- actualState & nextState
+  signal actuSt, nextSt: estados;      -- actualState & nextState
 
   processWhat: process (actuSt,x) begin
 
