@@ -1,0 +1,48 @@
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity Signals is 
+  port(
+	clk: in std_logic;
+	a: out std_logic; -- accumulator
+	d: out std_logic_vector (6 downto 0) -- decoded number
+);
+
+ end;
+
+ architecture Contador of Signals is
+ begin
+
+
+ process (clk)
+   variable n: std_logic_vector(6 downto 0); -- numbers
+ begin
+	if(clk'event and clk = '1')then
+	    case n is
+		 when "1111110" => n := "0110000";
+		 when "0110000" => n := "1101101";
+		 when "1101101" => n := "1111001";
+		 when "1111001" => n := "0110011";
+		 when "0110011" => n := "1011011";
+		 when "1011011" => n := "1011111";
+		 when "1011111" => n := "1110000";
+		 when "1110000" => n := "1111111";
+		 when "1111111" => n := "1110011";
+		 when "1110011" => n := "1111110";
+	   end case;
+
+	end if;
+		 
+	d <= n;
+
+	if(d = "1110011") then
+		a <= '1';
+	else
+		a <= '0';
+	end if;
+ end process;
+
+ end Contador;
