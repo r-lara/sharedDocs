@@ -12,7 +12,7 @@ architecture respuesta of examenVHDL
 begin
 
   process(clk,btns)                       --init process managing states
-    if(clk'event and clk = '1') then
+    --if(clk'event and clk = '1') then
       if(btns = "11") then ef <= s0;
       --elsif(btns= "00") then ef <= ep;
       elsif(ep = s0) then         -- estado actual 0
@@ -40,8 +40,20 @@ begin
         --elsif(btns = "10")  then ef <= s2;
         --end if;
 
-    end if;
+    --end if;
   end process                             -- end process managing states
+  
+  process (clk) begin
+    if (clk'event and clk='1') then
+    ep <= ef;
+      case ep is
+        when s1 => luces <= "01";
+        when s1 => luces <= "10";
+        when s1 => luces <= "11";
+        when others => luces <= "00";
+      end case;
+    end if;
+  end process;
   
   
   
