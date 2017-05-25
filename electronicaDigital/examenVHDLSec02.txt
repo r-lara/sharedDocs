@@ -1,0 +1,99 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity examenVHDL is
+
+port( 
+	clk: in std_logic ;
+	btns: in std_logic_vector ( 1 downto 0 );
+	luces: out std_logic_vector ( 1 downto 0 ) 
+);
+
+end;
+
+
+architecture respuesta of examenVHDL
+  type estados is (s0,s1,s2,s3,s4,s5);
+  signal ep,ef:estados; --estado presente / estado futuro
+begin
+
+whatControll: process(btns,ep) begin
+    case ep is
+	when s0 => luces <= "00";
+	    if   (btns = "10")then 
+		ef <= s2;
+	    elsif(btns = "01")then 
+		ef <= s1;
+	    elsif(btns = "11")then 
+		ef <= s0; 
+	    end if;
+
+
+	when s1 => luces <= "01";
+	    if   (btns = "10")then 
+		ef <= s5;
+	    elsif(btns = "01")then 
+		ef <= s3;
+	    elsif(btns = "11")then 
+		ef <= s0; 
+	    end if;
+
+
+	when s2 => luces <= "10";
+	    if   (btns = "10")then 
+		ef <= s4;
+	    elsif(btns = "01")then 
+		ef <= s5;
+	    elsif(btns = "11")then 
+		ef <= s0; 
+	    end if;
+
+
+	when s3 => luces <= "00";
+	    if   (btns = "01")then 
+		ef <= s1;
+	    --elsif(btns = "10")then ef <= s1;
+	    elsif(btns = "11")then 
+		ef <= s0; 
+	    end if;
+
+
+	when s4 => luces <= "00";
+	    if   (btns = "10")then 
+		ef <= s2;
+	    -- elsif(btns = "01")then ef <= s1;
+	    elsif(btns = "11")then 
+		ef <= s0; end if;
+
+
+	when s5 => luces <= "11";
+	    if   (btns = "11")then 
+		ef <= s0;
+	    -- elsif(btns = "01")then ef <= s1;
+	    elsif(btns = "11")then 
+		ef <= s0; 
+	    end if;
+
+    end case;
+end process whatControll; -- what
+
+
+
+whenCotroll: process (clk) begin
+
+    if(clk'event and clk = '1') then
+	ep <= ef;
+	
+	--  case ep is
+		--when s5 => luces <= "11";		   
+		--when s1 => luces <= "01";
+		--when s2 => luces <= "10";
+		--when others => luces <= "00";
+	--  end case;
+    end if;
+
+end process whenControll;
+
+end respuesta;
