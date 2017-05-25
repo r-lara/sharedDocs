@@ -1,0 +1,47 @@
+entity examenVHDL 
+  port(
+    clk: in std_logic;
+    luces: out std_logic_vector(1 downto 0);
+    btns: in std_logic_vector(1 downto 0)
+  );
+end;
+
+architecture respuesta of examenVHDL
+  type estados is (s0,s1,s2,s3,s4,s5);
+  signal ep,ef: estados; --estado presente / estado futuro
+begin
+
+  process(clk,btns)                       --init process managing states
+    if(clk'event and clk = '1') then
+      if(btns = "11") then ef <= s0;
+      --elsif(btns= "00") then ef <= ep;
+      elsif(ep = s0) then         -- estado actual 0
+        if(btns = "01")     then ef <= s1;
+        elsif(btns = "10")  then ef <= s2;
+        end if;
+      elsif(ep = s1) then         -- estado actual 1
+        if(btns = "01")     then ef <= s3;
+        elsif(btns = "10")  then ef <= s5;
+        end if;
+      elsif(ep = s2) then         -- estado actual 2
+        if(btns = "01")     then ef <= s5;
+        elsif(btns = "10")  then ef <= s4;
+        end if;
+      elsif(ep = s3) then         -- estado actual 3
+        if(btns = "01")     then ef <= s1;
+        --elsif(btns = "10")  then ef <= s2;
+        end if;
+      elsif(ep = s4) then         -- estado actual 4
+        --if(btns = "01")     then ef <= s1;
+        if(btns = "10")  then ef <= s2;
+        end if;
+      --elsif(ep = s5) then         -- estado actual 5
+        --if(btns = "01")     then ef <= s1;
+        --elsif(btns = "10")  then ef <= s2;
+        --end if;
+
+    end if;
+  end process                             -- end process managing states
+  
+  
+  
