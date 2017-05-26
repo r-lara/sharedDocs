@@ -1,0 +1,61 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity examenvhdl is
+
+port( 
+	clk: in std_logic ;
+	btns: in std_logic_vector ( 1 downto 0 );
+	luces: out std_logic_vector ( 1 downto 0 )
+);
+
+end;
+
+architecture respuesta of examenvhdl is
+	type estados is (s0,s1,s2,s3,s4,s5);
+	signal eact,esig:estados; -- estado actual , estao siguiente
+begin
+
+
+process (btns) begin
+
+	case eact is
+		when s0 => if    (btns = "01") then esig <= s1;
+			   elsif (btns = "10") then esig <= s2;
+			   else esig <= s0; end if;
+		when s1 => if	 (btns = "01") then esig <= s3;
+			   elsif (btns = "10") then esig <= s5;
+			   elsif (btns = "11") then esig <= s0;
+			   else esig <= s1; end if;
+		when s2 => if	 (btns = "01") then esig <= s5;
+			   elsif (btns = "10") then esig <= s4;
+			   elsif (btns = "11") then esig <= s0;
+			   else esig <= s2; end if;
+		when s3 => if	 (btns = "01") then esig <= s1;
+			   elsif (btns = "11") then esig <= s0;
+			   else esig <= s3; end if;
+		when s4 => if	 (btns = "10") then esig <= s2;
+			   elsif (btns = "11") then esig <= s0;
+			   else esig <= s4; end if;
+		when s5 => if	 (btns = "11") then esig <= s0;
+			   else esig <= s5; end if;
+	end case;
+
+end process;
+
+
+process (clk,eact) begin
+	if(clk'event and clk = '1') then
+		eact <= esig;
+		case eact is
+			when s1 => luces <= "10";
+			when s2 => luces <= "01";
+			when s5 => luces <= "11";
+			when others => luces <= "00";
+		end case;
+	end if;
+end process;
+
+end respuesta;
